@@ -231,45 +231,266 @@
             background: white;
             border-radius: 40px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-            border: 12px solid #1a1a1a;
+            padding: 14px;
             overflow: hidden;
-            margin: 0 auto;
         }
 
         .mobile-frame img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            border-radius: 30px;
         }
 
         .mobile-placeholder {
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+            background: linear-gradient(135deg, var(--sage) 0%, var(--rust) 100%);
+            border-radius: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--warm-gray);
-            font-size: 0.9rem;
             text-align: center;
+            color: var(--cream);
             padding: 2rem;
-            line-height: 1.5;
+            font-size: 0.9rem;
+            line-height: 1.6;
         }
 
         .ui-caption {
-            text-align: center;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: var(--warm-gray);
-            margin-top: 1rem;
-            font-style: italic;
             font-weight: 300;
+            font-style: italic;
+            text-align: center;
+            margin-top: 1rem;
+            line-height: 1.4;
         }
 
         .features {
             position: relative;
             z-index: 2;
-            padding: 8rem 0;
-            background: linear-gradient(180deg, transparent 0%, rgba(122, 157, 111, 0.05) 100%);
+            padding: 6rem 0;
+            background: var(--cream);
+        }
+
+        .section-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--charcoal);
+            letter-spacing: -0.02em;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--warm-gray);
+            margin-bottom: 4rem;
+            font-weight: 300;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4rem;
+            margin-top: 4rem;
+        }
+
+        .feature {
+            text-align: center;
+        }
+
+        .interface-preview {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            max-width: 450px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .interface-preview img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 4px;
+        }
+
+        .interface-placeholder {
+            background: linear-gradient(135deg, var(--sage) 0%, var(--rust) 100%);
+            color: var(--cream);
+            padding: 4rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-radius: 4px;
+            min-height: 300px;
+            line-height: 1.6;
+        }
+
+        .feature h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--charcoal);
+        }
+
+        .feature p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--warm-gray);
+            font-weight: 300;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: var(--cream);
+            padding: 3rem;
+            border-radius: 4px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: var(--warm-gray);
+            cursor: pointer;
+            transition: color 0.2s ease;
+            line-height: 1;
+            padding: 0.5rem;
+        }
+
+        .modal-close:hover {
+            color: var(--rust);
+        }
+
+        #signupForm h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--charcoal);
+        }
+
+        #signupForm p {
+            color: var(--warm-gray);
+            margin-bottom: 2rem;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        .email-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .email-input {
+            padding: 1rem;
+            font-size: 1rem;
+            border: 2px solid rgba(0,0,0,0.1);
+            border-radius: 2px;
+            font-family: 'Public Sans', sans-serif;
+            transition: border-color 0.2s ease;
+        }
+
+        .email-input:focus {
+            outline: none;
+            border-color: var(--rust);
+        }
+
+        .submit-button {
+            background: var(--rust);
+            color: var(--cream);
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            font-family: 'Public Sans', sans-serif;
+        }
+
+        .submit-button:hover {
+            background: var(--charcoal);
+        }
+
+        .submit-button:disabled {
+            background: var(--warm-gray);
+            cursor: not-allowed;
+        }
+
+        .confirmation {
+            display: none;
+            text-align: center;
+        }
+
+        .confirmation.active {
+            display: block;
+        }
+
+        .confirmation-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--sage);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            font-size: 3rem;
+            color: white;
+        }
+
+        .confirmation h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--charcoal);
+        }
+
+        .confirmation p {
+            color: var(--warm-gray);
+            font-weight: 300;
+            line-height: 1.6;
         }
 
         footer {
@@ -294,16 +515,16 @@
         }
 
         .footer-tagline {
-            color: rgba(250, 247, 240, 0.6);
-            line-height: 1.6;
+            color: rgba(250, 247, 240, 0.7);
             font-weight: 300;
         }
 
         .footer-section h4 {
-            font-family: 'DM Serif Display', serif;
-            font-size: 1.1rem;
+            font-weight: 600;
             margin-bottom: 1rem;
-            color: var(--cream);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         .footer-links {
@@ -329,9 +550,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: rgba(250, 247, 240, 0.5);
             font-size: 0.9rem;
-            font-weight: 300;
+            color: rgba(250, 247, 240, 0.6);
         }
 
         .footer-social {
@@ -340,98 +560,13 @@
         }
 
         .footer-social a {
-            color: rgba(250, 247, 240, 0.5);
+            color: rgba(250, 247, 240, 0.6);
             text-decoration: none;
             transition: color 0.2s ease;
         }
 
         .footer-social a:hover {
             color: var(--rust);
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 4rem;
-            margin-top: 4rem;
-            max-width: 900px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .feature {
-            opacity: 0;
-            animation: fadeInUp 0.6s ease-out forwards;
-            text-align: center;
-        }
-
-        .feature:nth-child(1) { animation-delay: 0.1s; }
-        .feature:nth-child(2) { animation-delay: 0.2s; }
-
-        .interface-preview {
-            width: 100%;
-            max-width: 350px;
-            margin: 0 auto 2rem;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            overflow: hidden;
-        }
-
-        .interface-preview img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .interface-placeholder {
-            width: 100%;
-            height: 500px;
-            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--warm-gray);
-            font-size: 0.9rem;
-            text-align: center;
-            padding: 2rem;
-            line-height: 1.5;
-        }
-
-        .feature h3 {
-            font-family: 'DM Serif Display', serif;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--charcoal);
-            margin-top: 1.5rem;
-        }
-
-        .feature .ui-caption {
-            margin-top: 0.5rem;
-            margin-bottom: 0;
-        }
-
-        .feature p {
-            color: var(--warm-gray);
-            line-height: 1.6;
-            font-weight: 300;
-        }
-
-        .section-title {
-            font-family: 'DM Serif Display', serif;
-            font-size: clamp(2.5rem, 5vw, 3.5rem);
-            text-align: center;
-            color: var(--charcoal);
-            margin-bottom: 1rem;
-        }
-
-        .section-subtitle {
-            text-align: center;
-            color: var(--warm-gray);
-            font-size: 1.1rem;
-            font-weight: 300;
-            max-width: 600px;
-            margin: 0 auto;
         }
 
         @keyframes fadeInUp {
@@ -446,149 +581,18 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
+            from {
+                opacity: 0;
             }
-            50% {
-                transform: translateY(-20px);
+            to {
+                opacity: 1;
             }
         }
 
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(26, 26, 26, 0.8);
-            z-index: 1000;
-            backdrop-filter: blur(4px);
-            animation: fadeIn 0.3s ease;
-        }
-
-        .modal.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background: var(--cream);
-            padding: 3rem;
-            max-width: 500px;
-            width: 90%;
-            position: relative;
-            animation: fadeInUp 0.4s ease;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--warm-gray);
-            transition: color 0.2s ease;
-        }
-
-        .modal-close:hover {
-            color: var(--rust);
-        }
-
-        .modal h2 {
-            font-family: 'DM Serif Display', serif;
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: var(--charcoal);
-        }
-
-        .modal p {
-            color: var(--warm-gray);
-            margin-bottom: 2rem;
-            line-height: 1.6;
-        }
-
-        .email-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .email-input {
-            padding: 1rem;
-            border: 2px solid #e0e0e0;
-            font-size: 1rem;
-            font-family: 'Public Sans', sans-serif;
-            transition: border-color 0.2s ease;
-        }
-
-        .email-input:focus {
-            outline: none;
-            border-color: var(--rust);
-        }
-
-        .submit-button {
-            background: var(--rust);
-            color: var(--cream);
-            padding: 1rem;
-            border: none;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s ease;
-            font-family: 'Public Sans', sans-serif;
-        }
-
-        .submit-button:hover {
-            background: #a83d27;
-        }
-
-        .submit-button:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-
-        .confirmation {
-            display: none;
-            text-align: center;
-        }
-
-        .confirmation.active {
-            display: block;
-        }
-
-        .confirmation-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        @media (max-width: 768px) {
-            nav {
-                display: none;
-            }
-
+        @media (max-width: 968px) {
             .hero-content {
                 grid-template-columns: 1fr;
                 gap: 3rem;
-            }
-
-            /* Center CTA button on mobile */
-            .hero-text .cta-button {
-                display: block;
-                text-align: center;
-                margin: 0 auto;
-            }
-
-            .visual-element {
-                margin-top: 2rem;
             }
 
             .features-grid {
@@ -596,24 +600,19 @@
                 gap: 3rem;
             }
 
-            /* Reorder features on mobile: text before image */
-            .feature {
-                display: flex;
-                flex-direction: column;
+            nav {
+                gap: 1.5rem;
             }
 
-            .feature .interface-preview {
-                order: 2;
-                margin-bottom: 0.5rem;
+            nav a:not(.nav-cta) {
+                display: none;
             }
 
             .feature h3 {
-                order: 1;
-                margin-top: 0;
-                margin-bottom: 0.75rem;
+                order: 2;
             }
 
-            .feature p:not(.ui-caption) {
+            .feature p:last-of-type {
                 order: 1;
                 margin-bottom: 1.5rem;
             }
@@ -628,7 +627,6 @@
                 max-width: 100%;
             }
 
-            /* Mobile styles */
             .mobile-container {
                 width: 260px;
                 height: auto;
@@ -757,7 +755,7 @@
                         required
                         id="emailInput"
                     >
-                    <button type="submit" class="submit-button">Join the waitlist</button>
+                    <button type="submit" class="submit-button" id="submitBtn">Join the waitlist</button>
                 </form>
                 <p style="font-size: 0.85rem; color: var(--warm-gray); margin-top: 1rem; font-weight: 300;">No credit card required. We'll notify you when spots open up.</p>
             </div>
@@ -807,6 +805,10 @@
         const emailForm = document.getElementById('emailForm');
         const signupFormDiv = document.getElementById('signupForm');
         const confirmationDiv = document.getElementById('confirmation');
+        const submitBtn = document.getElementById('submitBtn');
+
+        // REPLACE THIS WITH YOUR GOOGLE SHEETS WEB APP URL
+        const GOOGLE_SHEETS_URL = 'https://script.google.com/a/macros/letsterra.com/s/AKfycbzyaGqALYcR9WlmnewWS0SN3NwznjgmQDf2Qi-GEWvk_qCOziaBMk9BE9F6cCWDf2c5lQ/exec';
 
         triggers.forEach(trigger => {
             trigger.addEventListener('click', (e) => {
@@ -835,14 +837,40 @@
             }
         });
 
-        emailForm.addEventListener('submit', (e) => {
+        emailForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('emailInput').value;
             
-            console.log('Email submitted:', email);
+            // Disable button while submitting
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
             
-            signupFormDiv.style.display = 'none';
-            confirmationDiv.classList.add('active');
+            try {
+                // Send to Google Sheets
+                const response = await fetch(GOOGLE_SHEETS_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        timestamp: new Date().toISOString(),
+                        source: 'ConvoLab Landing Page'
+                    })
+                });
+                
+                console.log('Email submitted:', email);
+                
+                // Show confirmation
+                signupFormDiv.style.display = 'none';
+                confirmationDiv.classList.add('active');
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                alert('There was an error submitting your email. Please try again.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Join the waitlist';
+            }
         });
     </script>
 </body>
