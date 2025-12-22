@@ -7,6 +7,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Public+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7SD5LCV5F1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-7SD5LCV5F1');
+    </script>
+    
     <style>
         :root {
             --cream: #FAF7F0;
@@ -696,17 +707,6 @@
         }
     </style>
 </head>
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7SD5LCV5F1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7SD5LCV5F1');
-</script>
-
 <body>
     <header>
         <div class="container">
@@ -858,11 +858,35 @@
         triggers.forEach(trigger => {
             trigger.addEventListener('click', (e) => {
                 e.preventDefault();
+                
+                // Track CTA click with location
+                const location = trigger.classList.contains('nav-cta') ? 'navigation' : 
+                                trigger.closest('.hero') ? 'hero' : 'bottom_cta';
+                
+                gtag('event', 'cta_click', {
+                    'event_category': 'engagement',
+                    'event_label': location,
+                    'value': 1
+                });
+                
+                // Track modal open
+                gtag('event', 'modal_open', {
+                    'event_category': 'engagement',
+                    'event_label': 'signup_modal'
+                });
+                
                 modal.classList.add('active');
             });
         });
 
         closeBtn.addEventListener('click', () => {
+            // Track modal abandonment
+            gtag('event', 'modal_close', {
+                'event_category': 'engagement',
+                'event_label': 'close_button',
+                'non_interaction': false
+            });
+            
             modal.classList.remove('active');
             setTimeout(() => {
                 signupFormDiv.style.display = 'block';
@@ -873,6 +897,13 @@
 
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
+                // Track modal abandonment via background click
+                gtag('event', 'modal_close', {
+                    'event_category': 'engagement',
+                    'event_label': 'background_click',
+                    'non_interaction': false
+                });
+                
                 modal.classList.remove('active');
                 setTimeout(() => {
                     signupFormDiv.style.display = 'block';
@@ -885,6 +916,12 @@
         emailForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('emailInput').value;
+            
+            // Track form submission attempt
+            gtag('event', 'form_submit_attempt', {
+                'event_category': 'conversion',
+                'event_label': 'waitlist_signup'
+            });
             
             // Disable button while submitting
             submitBtn.disabled = true;
@@ -907,16 +944,117 @@
                 
                 console.log('Email submitted:', email);
                 
+                // Track successful conversion - PRIMARY METRIC
+                gtag('event', 'conversion', {
+                    'event_category': 'conversion',
+                    'event_label': 'waitlist_signup_success',
+                    'value': 1
+                });
+                
+                // Also track as generate_lead event (Google Ads conversion tracking)
+                gtag('event', 'generate_lead', {
+                    'event_category': 'conversion',
+                    'event_label': 'waitlist'
+                });
+                
                 // Show confirmation
                 signupFormDiv.style.display = 'none';
                 confirmationDiv.classList.add('active');
             } catch (error) {
                 console.error('Error submitting form:', error);
+                
+                // Track form submission error
+                gtag('event', 'form_submit_error', {
+                    'event_category': 'error',
+                    'event_label': 'waitlist_signup',
+                    'non_interaction': true
+                });
+                
                 alert('There was an error submitting your email. Please try again.');
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Join the waitlist';
             }
         });
+        
+        // SCROLL DEPTH TRACKING
+        let scrollTracked = {
+            '25': false,
+            '50': false,
+            '75': false,
+            '100': false,
+            'features': false,
+            'bottom_cta': false
+        };
+        
+        function trackScroll() {
+            const scrollPercent = Math.round((window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100);
+            
+            // Track percentage milestones
+            ['25', '50', '75', '100'].forEach(threshold => {
+                if (scrollPercent >= parseInt(threshold) && !scrollTracked[threshold]) {
+                    scrollTracked[threshold] = true;
+                    gtag('event', 'scroll_depth', {
+                        'event_category': 'engagement',
+                        'event_label': threshold + '_percent',
+                        'value': parseInt(threshold)
+                    });
+                }
+            });
+            
+            // Track when features section comes into view
+            const featuresSection = document.getElementById('features');
+            if (featuresSection && !scrollTracked['features']) {
+                const rect = featuresSection.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom >= 0) {
+                    scrollTracked['features'] = true;
+                    gtag('event', 'section_view', {
+                        'event_category': 'engagement',
+                        'event_label': 'features_section'
+                    });
+                }
+            }
+        }
+        
+        window.addEventListener('scroll', trackScroll);
+        
+        // FEATURE CARD ENGAGEMENT TRACKING
+        const featureCards = document.querySelectorAll('.feature');
+        featureCards.forEach((card, index) => {
+            const featureName = index === 0 ? 'interview_practice' : 'salary_negotiation';
+            
+            card.addEventListener('mouseenter', () => {
+                gtag('event', 'feature_hover', {
+                    'event_category': 'engagement',
+                    'event_label': featureName
+                });
+            });
+        });
+        
+        // NAVIGATION LINK TRACKING
+        document.querySelectorAll('nav a:not(.nav-cta)').forEach(link => {
+            link.addEventListener('click', (e) => {
+                gtag('event', 'nav_click', {
+                    'event_category': 'engagement',
+                    'event_label': e.target.textContent.trim()
+                });
+            });
+        });
+        
+        // TIME ON PAGE TRACKING (at intervals)
+        let timeOnPage = 0;
+        const timeIntervals = [10, 30, 60, 120, 300]; // seconds
+        
+        setInterval(() => {
+            timeOnPage += 10;
+            if (timeIntervals.includes(timeOnPage)) {
+                gtag('event', 'time_on_page', {
+                    'event_category': 'engagement',
+                    'event_label': timeOnPage + '_seconds',
+                    'value': timeOnPage,
+                    'non_interaction': true
+                });
+            }
+        }, 10000);
     </script>
 </body>
 </html>
