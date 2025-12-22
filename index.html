@@ -23,6 +23,26 @@
         });
     </script>
     
+    <!-- Meta Pixel Code -->
+    <script>
+        !function(f,b,e,v,n,t,s){
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        fbq('init', '842005029005845');
+        fbq('track', 'PageView');
+    </script>
+    <noscript>
+        <img height="1" width="1" style="display:none" 
+             src="https://www.facebook.com/tr?id=842005029005845&ev=PageView&noscript=1"/>
+    </noscript>
+    <!-- End Meta Pixel Code -->
+    
     <style>
         :root {
             --cream: #FAF7F0;
@@ -1016,6 +1036,13 @@
                     'event_label': 'waitlist'
                 });
                 
+                // Facebook Pixel - Track Lead conversion (CRITICAL for ad optimization)
+                fbq('track', 'Lead', {
+                    content_name: 'Waitlist Signup',
+                    value: 1.00,
+                    currency: 'USD'
+                });
+                
                 // Show confirmation
                 signupFormDiv.style.display = 'none';
                 confirmationDiv.classList.add('active');
@@ -1066,9 +1093,17 @@
                 const rect = featuresSection.getBoundingClientRect();
                 if (rect.top < window.innerHeight && rect.bottom >= 0) {
                     scrollTracked['features'] = true;
+                    
+                    // Google Analytics
                     gtag('event', 'section_view', {
                         'event_category': 'engagement',
                         'event_label': 'features_section'
+                    });
+                    
+                    // Facebook Pixel - ViewContent = User scrolled to features (HIGH INTENT)
+                    fbq('track', 'ViewContent', {
+                        content_name: 'Features Section',
+                        content_category: 'Product Interest'
                     });
                 }
             }
